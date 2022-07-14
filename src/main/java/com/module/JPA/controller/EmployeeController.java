@@ -1,6 +1,7 @@
 package com.module.JPA.controller;
 
 import com.module.JPA.entity.Employee;
+import com.module.JPA.entity.dto.EmployeeDTO;
 import com.module.JPA.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -53,14 +54,14 @@ public class EmployeeController {
 
     // get employees related to specific department
     @GetMapping("department/{name}")
-    public List<Employee> findByDepartmentName(@PathVariable String name){
+    public List<EmployeeDTO> findByDepartmentName(@PathVariable String name){
         return employeeService.findByDepartmentName(name);
     }
 
     //http://localhost:8090/emp/empSalary/21000.0
     // Get all employees have same salary
     @GetMapping("empSalary/{salary}")
-    public List<Employee> findEmpBySalary(@PathVariable Double salary){
+    public List<EmployeeDTO> findEmpBySalary(@PathVariable Double salary){
         return employeeService.findEmpBySalary(salary);
     }
 

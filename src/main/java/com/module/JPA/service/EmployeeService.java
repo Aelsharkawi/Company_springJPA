@@ -1,10 +1,13 @@
 package com.module.JPA.service;
 
 import com.module.JPA.entity.Employee;
+import com.module.JPA.entity.dto.EmployeeDTO;
 import com.module.JPA.repository.EmployeeRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -12,6 +15,8 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepo employeeRepo;
+    @Autowired
+    private ModelMapper modelMapper;
     // get all employees
     public List<Employee> getEmployees() {
         return employeeRepo.findAll();
@@ -49,13 +54,34 @@ public class EmployeeService {
 
 
     // get all employees related to department
-    public List<Employee> findByDepartmentName(String name){
-        return employeeRepo.findByDepartmentName(name);
+    public List<EmployeeDTO> findByDepartmentName(String name){
+        List<Employee> employees = employeeRepo.findByDepartmentName(name);
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        for (int i=0; i<employees.size(); i++){
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            modelMapper.map(employees.get(i), employeeDTO);
+//            employeeDTO.setId(employees.get(i).getId());
+//            employeeDTO.setName(employees.get(i).getName());
+//            employeeDTO.setEmail(employees.get(i).getEmail());
+
+            employeeDTOList.add(employeeDTO);
+        }
+        return employeeDTOList;
     }
 
     // Get all employees have same salary
-    public List<Employee> findEmpBySalary(Double salary){
-        return employeeRepo.findEmpBySalary(salary);
+    public List<EmployeeDTO> findEmpBySalary(Double salary){
+        List<Employee> employees = employeeRepo.findEmpBySalary(salary);
+        List<EmployeeDTO> employeeDTOList = new ArrayList<>();
+        for (int i=0; i<employees.size(); i++){
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            modelMapper.map(employees.get(i),employeeDTO);
+//            employeeDTO.setId(employees.get(i).getId());
+//            employeeDTO.setName(employees.get(i).getName());
+//            employeeDTO.setEmail(employees.get(i).getEmail());
+            employeeDTOList.add(employeeDTO);
+        }
+        return employeeDTOList;
     }
 
 
